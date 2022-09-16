@@ -1,49 +1,49 @@
-import type { AppRouteRecordRaw, AppRouteModule } from '/@/router/types';
+import type { AppRouteRecordRaw, AppRouteModule } from '/@/router/types'
 
-import { PAGE_NOT_FOUND_ROUTE, REDIRECT_ROUTE } from '/@/router/routes/basic';
+import { PAGE_NOT_FOUND_ROUTE, REDIRECT_ROUTE } from '/@/router/routes/basic'
 
-import { mainOutRoutes } from './mainOut';
-import { PageEnum } from '/@/enums/pageEnum';
-import { t } from '/@/hooks/web/useI18n';
+import { mainOutRoutes } from './mainOut'
+import { PageEnum } from '/@/enums/pageEnum'
+import { t } from '/@/hooks/web/useI18n'
 
-// import.meta.globEager() Ö±½ÓÒýÈëËùÓÐµÄÄ£¿é Vite ¶ÀÓÐµÄ¹¦ÄÜ
-const modules = import.meta.globEager('./modules/**/*.ts');
-const routeModuleList: AppRouteModule[] = [];
+// import.meta.globEager() Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ä£ï¿½ï¿½ Vite ï¿½ï¿½ï¿½ÐµÄ¹ï¿½ï¿½ï¿½
+const modules = import.meta.globEager('./modules/**/*.ts')
+const routeModuleList: AppRouteModule[] = []
 
-// ¼ÓÈëµ½Â·ÓÉ¼¯ºÏÖÐ
+// ï¿½ï¿½ï¿½ëµ½Â·ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½
 Object.keys(modules).forEach((key) => {
-  const mod = modules[key].default || {};
-  const modList = Array.isArray(mod) ? [...mod] : [mod];
-  routeModuleList.push(...modList);
-});
+  const mod = modules[key].default || {}
+  const modList = Array.isArray(mod) ? [...mod] : [mod]
+  routeModuleList.push(...modList)
+})
 
-export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
+export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList]
 
-// ¸ùÂ·ÓÉ
+// ï¿½ï¿½Â·ï¿½ï¿½
 export const RootRoute: AppRouteRecordRaw = {
   path: '/',
   name: 'Root',
   redirect: PageEnum.BASE_HOME,
   meta: {
-    title: 'Root',
-  },
-};
+    title: 'Root'
+  }
+}
 
 export const LoginRoute: AppRouteRecordRaw = {
   path: '/login',
   name: 'Login',
   component: () => import('/@/views/sys/login/Login.vue'),
   meta: {
-    title: t('routes.basic.login'),
-  },
-};
+    title: t('routes.basic.login')
+  }
+}
 
 // Basic routing without permission
-// Î´¾­Ðí¿ÉµÄ»ù±¾Â·ÓÉ
+// Î´ï¿½ï¿½ï¿½ï¿½ï¿½ÉµÄ»ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 export const basicRoutes = [
   LoginRoute,
   RootRoute,
   ...mainOutRoutes,
   REDIRECT_ROUTE,
-  PAGE_NOT_FOUND_ROUTE,
-];
+  PAGE_NOT_FOUND_ROUTE
+]

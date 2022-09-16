@@ -50,6 +50,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: /\/#\//,
           replacement: pathResolve('types') + '/',
         },
+        {
+          find: 'mock-path',
+          replacement: pathResolve('mock') + '/',
+        },
       ],
     },
     server: {

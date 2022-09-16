@@ -142,5 +142,7 @@
   ],
   "vetur.format.scriptInitialIndent": true,
   "vetur.format.styleInitialIndent": true,
-  "vetur.validation.script": false
+  "vetur.validation.script": false,
+  "prettier.trailingComma": "none",
+  "prettier.semi": false
 }

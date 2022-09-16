@@ -8,9 +8,9 @@
   </span>
 </template>
 <script lang="ts" setup>
-  import { computed } from 'vue';
-  import { Icon } from '/@/components/Icon';
-  import { useDesign } from '/@/hooks/web/useDesign';
+  import { computed } from 'vue'
+  import { Icon } from '/@/components/Icon'
+  import { useDesign } from '/@/hooks/web/useDesign'
 
   const props = defineProps({
     /**
@@ -28,24 +28,24 @@
     /**
      * Cancel padding/margin for inline
      */
-    inset: { type: Boolean },
-  });
+    inset: { type: Boolean }
+  })
 
-  const { prefixCls } = useDesign('basic-arrow');
+  const { prefixCls } = useDesign('basic-arrow')
 
   // get component class
   const getClass = computed(() => {
-    const { expand, up, down, inset } = props;
+    const { expand, up, down, inset } = props
     return [
       prefixCls,
       {
         [`${prefixCls}--active`]: expand,
         up,
         inset,
-        down,
-      },
-    ];
-  });
+        down
+      }
+    ]
+  })
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-basic-arrow';
