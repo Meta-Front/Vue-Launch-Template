@@ -1,5 +1,5 @@
 <template>
-  <Header :class="getHeaderClass">
+  <CustomHeader :class="getHeaderClass">
     <!-- left start -->
     <div :class="`${prefixCls}-left`">
       <!-- logo -->
@@ -52,7 +52,7 @@
 
       <SettingDrawer v-if="getShowSetting" :class="`${prefixCls}-action__item`" />
     </div>
-  </Header>
+  </CustomHeader>
 </template>
 <script lang="ts">
   import { defineComponent, unref, computed } from 'vue'
@@ -84,7 +84,7 @@
   export default defineComponent({
     name: 'LayoutHeader',
     components: {
-      Header: Layout.Header,
+      CustomHeader: Layout.Header,
       AppLogo,
       LayoutTrigger,
       LayoutBreadcrumb,

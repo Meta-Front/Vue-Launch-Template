@@ -1,7 +1,7 @@
 <template>
   <div :class="prefixCls">
     <span> {{ title }}</span>
-    <Switch
+    <AntSwitch
       v-bind="getBindValue"
       @change="handleChange"
       :disabled="disabled"
@@ -13,15 +13,14 @@
 <script lang="ts">
   import { defineComponent, PropType, computed } from 'vue'
 
-  import { Switch } from 'ant-design-vue'
+  import { Switch as AntSwitch } from 'ant-design-vue'
   import { useDesign } from '/@/hooks/web/useDesign'
   import { useI18n } from '/@/hooks/web/useI18n'
   import { baseHandler } from '../handler'
   import { HandlerEnum } from '../enum'
-
   export default defineComponent({
     name: 'SwitchItem',
-    components: { Switch },
+    components: { AntSwitch },
     props: {
       event: {
         type: Number as PropType<HandlerEnum>
@@ -43,7 +42,7 @@
       const getBindValue = computed(() => {
         return props.def ? { checked: props.def } : {}
       })
-      function handleChange(e: ChangeEvent) {
+      function handleChange(e: boolean | string | number) {
         props.event && baseHandler(props.event, e)
       }
       return {

@@ -15,7 +15,7 @@
       </template>
     </BasicForm>
 
-    <Table
+    <AntTable
       ref="tableElRef"
       v-bind="getBindValues"
       :rowClassName="getRowClassName"
@@ -35,14 +35,14 @@
       <!--      <template #[`header-${column.dataIndex}`] v-for="(column, index) in columns" :key="index">-->
       <!--        <HeaderCell :column="column" />-->
       <!--      </template>-->
-    </Table>
+    </AntTable>
   </div>
 </template>
 <script lang="ts">
   import type { BasicTableProps, TableActionType, SizeType, ColumnChangeParam } from './types/table'
 
   import { defineComponent, ref, computed, unref, toRaw, inject, watchEffect } from 'vue'
-  import { Table } from 'ant-design-vue'
+  import { Table as AntTable } from 'ant-design-vue'
   import { BasicForm, useForm } from '/@/components/Form/index'
   import { PageWrapperFixedHeightKey } from '/@/components/Page'
   import HeaderCell from './components/HeaderCell.vue'
@@ -71,7 +71,7 @@
 
   export default defineComponent({
     components: {
-      Table,
+      AntTable,
       BasicForm,
       HeaderCell
     },

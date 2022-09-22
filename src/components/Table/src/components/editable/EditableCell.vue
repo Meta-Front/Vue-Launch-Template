@@ -14,7 +14,7 @@
   import { propTypes } from '/@/utils/propTypes'
   import { isArray, isBoolean, isFunction, isNumber, isString } from '/@/utils/is'
   import { createPlaceholderMessage } from './helper'
-  import { omit, pick, set } from 'lodash-es'
+  import { pick, set } from 'lodash-es'
   import { treeToList } from '/@/utils/helper/treeHelper'
   import { Spin } from 'ant-design-vue'
 
@@ -334,33 +334,33 @@
           /* eslint-disable  */
           isArray(props.record[cbs])
             ? props.record[cbs]?.push(handle)
-            : (props.record[cbs] = [handle]);
+            : (props.record[cbs] = [handle])
         }
       }
 
       if (props.record) {
-        initCbs('submitCbs', handleSubmit);
-        initCbs('validCbs', handleSubmiRule);
-        initCbs('cancelCbs', handleCancel);
+        initCbs('submitCbs', handleSubmit)
+        initCbs('validCbs', handleSubmiRule)
+        initCbs('cancelCbs', handleCancel)
 
         if (props.column.dataIndex) {
-          if (!props.record.editValueRefs) props.record.editValueRefs = {};
-          props.record.editValueRefs[props.column.dataIndex as any] = currentValueRef;
+          if (!props.record.editValueRefs) props.record.editValueRefs = {}
+          props.record.editValueRefs[props.column.dataIndex as any] = currentValueRef
         }
         /* eslint-disable  */
         props.record.onCancelEdit = () => {
-          isArray(props.record?.cancelCbs) && props.record?.cancelCbs.forEach((fn) => fn());
-        };
+          isArray(props.record?.cancelCbs) && props.record?.cancelCbs.forEach((fn) => fn())
+        }
         /* eslint-disable */
         props.record.onSubmitEdit = async () => {
           if (isArray(props.record?.submitCbs)) {
-            if (!props.record?.onValid?.()) return;
-            const submitFns = props.record?.submitCbs || [];
-            submitFns.forEach((fn) => fn(false, false));
-            table.emit?.('edit-row-end');
-            return true;
+            if (!props.record?.onValid?.()) return
+            const submitFns = props.record?.submitCbs || []
+            submitFns.forEach((fn) => fn(false, false))
+            table.emit?.('edit-row-end')
+            return true
           }
-        };
+        }
       }
 
       return {
@@ -385,8 +385,8 @@
         getValues,
         handleEnter,
         handleSubmitClick,
-        spinning,
-      };
+        spinning
+      }
     },
     render() {
       return (
@@ -402,7 +402,7 @@
                     text: this.value,
                     record: this.record as Recordable,
                     column: this.column,
-                    index: this.index,
+                    index: this.index
                   })
                 : this.getValues
                 ? this.getValues
@@ -439,9 +439,9 @@
             </Spin>
           )}
         </div>
-      );
-    },
-  });
+      )
+    }
+  })
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-editable-cell';

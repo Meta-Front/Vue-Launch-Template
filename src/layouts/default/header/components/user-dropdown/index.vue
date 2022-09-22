@@ -10,9 +10,9 @@
     </span>
 
     <template #overlay>
-      <Menu @click="handleMenuClick">
+      <AntMenu @click="handleMenuClick">
         <MenuItem
-          key="doc"
+          custom-key="doc"
           :text="t('layout.header.dropdownItemDoc')"
           icon="ion:document-text-outline"
           v-if="getShowDoc"
@@ -20,23 +20,23 @@
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
           v-if="getUseLockPage"
-          key="lock"
+          custom-key="lock"
           :text="t('layout.header.tooltipLock')"
           icon="ion:lock-closed-outline"
         />
         <MenuItem
-          key="logout"
+          custom-key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
           icon="ion:power-outline"
         />
-      </Menu>
+      </AntMenu>
     </template>
   </Dropdown>
   <LockAction @register="register" />
 </template>
 <script lang="ts">
   // components
-  import { Dropdown, Menu } from 'ant-design-vue'
+  import { Dropdown, Menu as AntMenu } from 'ant-design-vue'
 
   import { defineComponent, computed } from 'vue'
 
@@ -53,6 +53,7 @@
   import { openWindow } from '/@/utils'
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent'
+  import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface'
 
   type MenuEvent = 'logout' | 'doc' | 'lock'
 
@@ -60,9 +61,9 @@
     name: 'UserDropdown',
     components: {
       Dropdown,
-      Menu,
+      AntMenu,
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
-      MenuDivider: Menu.Divider,
+      MenuDivider: AntMenu.Divider,
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue'))
     },
     props: {

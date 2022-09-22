@@ -1,5 +1,5 @@
 <template>
-  <Footer :class="prefixCls" v-if="getShowLayoutFooter" ref="footerRef">
+  <CustomFooter :class="prefixCls" v-if="getShowLayoutFooter" ref="footerRef">
     <div :class="`${prefixCls}__links`">
       <a @click="openWindow(SITE_URL)">{{ t('layout.footer.onlinePreview') }}</a>
 
@@ -8,7 +8,7 @@
       <a @click="openWindow(DOC_URL)">{{ t('layout.footer.onlineDocument') }}</a>
     </div>
     <div>Copyright &copy;2020 Vben Admin</div>
-  </Footer>
+  </CustomFooter>
 </template>
 
 <script lang="ts">
@@ -28,7 +28,7 @@
 
   export default defineComponent({
     name: 'LayoutFooter',
-    components: { Footer: Layout.Footer, GithubFilled },
+    components: { CustomFooter: Layout.Footer, GithubFilled },
     setup() {
       const { t } = useI18n()
       const { getShowFooter } = useRootSetting()

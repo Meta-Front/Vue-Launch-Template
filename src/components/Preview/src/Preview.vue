@@ -4,11 +4,11 @@
       <slot v-if="!imageList || $slots.default"></slot>
       <template v-else>
         <template v-for="item in getImageList" :key="item.src">
-          <Image v-bind="item">
+          <AntImage v-bind="item">
             <template #placeholder v-if="item.placeholder">
               <Image v-bind="item" :src="item.placeholder" :preview="false" />
             </template>
-          </Image>
+          </AntImage>
         </template>
       </template>
     </PreviewGroup>
@@ -18,7 +18,7 @@
   import type { PropType } from 'vue'
   import { defineComponent, computed } from 'vue'
 
-  import { Image } from 'ant-design-vue'
+  import { Image as AntImage } from 'ant-design-vue'
   import { useDesign } from '/@/hooks/web/useDesign'
   import { propTypes } from '/@/utils/propTypes'
   import { isString } from '/@/utils/is'
@@ -44,8 +44,8 @@
   export default defineComponent({
     name: 'ImagePreview',
     components: {
-      Image,
-      PreviewGroup: Image.PreviewGroup
+      AntImage,
+      PreviewGroup: AntImage.PreviewGroup
     },
     props: {
       functional: propTypes.bool,

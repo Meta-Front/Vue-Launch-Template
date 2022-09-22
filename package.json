@@ -33,8 +33,8 @@
     "reinstall": "rimraf yarn.lock && rimraf package.lock.json && rimraf node_modules && npm run bootstrap",
     "prepare": "husky install",
     "gen:icon": "esno ./build/generate/icon/index.ts",
-    "updates":"npx npm-check-updates -u",
-    "updates:check":"npx npm-check-updates -i"
+    "updates": "npx npm-check-updates -u",
+    "updates:check": "npx npm-check-updates -i"
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
@@ -52,6 +52,7 @@
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.1",
     "pinia": "^2.0.22",
+    "print-js": "^1.6.0",
     "qrcode": "^1.5.1",
     "qs": "^6.11.0",
     "resize-observer-polyfill": "^1.5.1",

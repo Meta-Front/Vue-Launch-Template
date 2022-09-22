@@ -15,7 +15,7 @@
   const ONE_DAY = ONE_HOUR * 24
 
   export default defineComponent({
-    name: 'Time',
+    name: 'CustomTime',
     props: {
       value: propTypes.oneOfType([propTypes.number, propTypes.instanceOf(Date), propTypes.string])
         .isRequired,

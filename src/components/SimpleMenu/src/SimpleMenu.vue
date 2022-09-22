@@ -1,5 +1,5 @@
 <template>
-  <Menu
+  <CustomMenu
     v-bind="getBindValues"
     :activeName="activeName"
     :openNames="getOpenKeys"
@@ -15,7 +15,7 @@
         :collapse="collapse"
       />
     </template>
-  </Menu>
+  </CustomMenu>
 </template>
 <script lang="ts">
   import type { MenuState } from './types'
@@ -23,7 +23,7 @@
   import type { RouteLocationNormalizedLoaded } from 'vue-router'
   import { defineComponent, computed, ref, unref, reactive, toRefs, watch } from 'vue'
   import { useDesign } from '/@/hooks/web/useDesign'
-  import Menu from './components/Menu.vue'
+  import CustomMenu from './components/Menu.vue'
   import SimpleSubMenu from './SimpleSubMenu.vue'
   import { listenerRouteChange } from '/@/logics/mitt/routeChange'
   import { propTypes } from '/@/utils/propTypes'
@@ -36,7 +36,7 @@
   export default defineComponent({
     name: 'SimpleMenu',
     components: {
-      Menu,
+      CustomMenu,
       SimpleSubMenu
     },
     inheritAttrs: false,

@@ -1,5 +1,5 @@
 <template>
-  <Table
+  <AntTable
     v-if="summaryFunc || summaryData"
     :showHeader="false"
     :bordered="false"
@@ -14,19 +14,20 @@
 <script lang="ts">
   import type { PropType } from 'vue'
   import { defineComponent, unref, computed, toRaw } from 'vue'
-  import { Table } from 'ant-design-vue'
+  import { Table as AntTable } from 'ant-design-vue'
   import { cloneDeep } from 'lodash-es'
   import { isFunction } from '/@/utils/is'
   import type { BasicColumn } from '../types/table'
   import { INDEX_COLUMN_FLAG } from '../const'
   import { propTypes } from '/@/utils/propTypes'
   import { useTableContext } from '../hooks/useTableContext'
+  import type { ColumnsType } from 'ant-design-vue/lib/table'
 
   const SUMMARY_ROW_KEY = '_row'
   const SUMMARY_INDEX_KEY = '_index'
   export default defineComponent({
     name: 'BasicTableFooter',
-    components: { Table },
+    components: { AntTable },
     props: {
       summaryFunc: {
         type: Function as PropType<Fn>
@@ -86,7 +87,7 @@
             customRender: ({ record }) => record[SUMMARY_ROW_KEY]
           })
         }
-        return columns
+        return columns as ColumnsType<any>
       })
       return { getColumns, getDataSource }
     }

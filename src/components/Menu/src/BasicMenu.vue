@@ -1,5 +1,5 @@
 <template>
-  <Menu
+  <AntMenu
     :selectedKeys="selectedKeys"
     :defaultSelectedKeys="defaultSelectedKeys"
     :mode="mode"
@@ -15,12 +15,12 @@
     <template v-for="item in items" :key="item.path">
       <BasicSubMenuItem :item="item" :theme="theme" :isHorizontal="isHorizontal" />
     </template>
-  </Menu>
+  </AntMenu>
 </template>
 <script lang="ts">
   import type { MenuState } from './types'
   import { computed, defineComponent, unref, reactive, watch, toRefs, ref } from 'vue'
-  import { Menu } from 'ant-design-vue'
+  import { Menu as AntMenu } from 'ant-design-vue'
   import BasicSubMenuItem from './components/BasicSubMenuItem.vue'
   import { MenuModeEnum, MenuTypeEnum } from '/@/enums/menuEnum'
   import { useOpenKeys } from './useOpenKeys'
@@ -33,11 +33,12 @@
   import { getCurrentParentPath } from '/@/router/menus'
   import { listenerRouteChange } from '/@/logics/mitt/routeChange'
   import { getAllParentPath } from '/@/router/helper/menuHelper'
+  import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface'
 
   export default defineComponent({
     name: 'BasicMenu',
     components: {
-      Menu,
+      AntMenu,
       BasicSubMenuItem
     },
     props: basicProps,
@@ -117,16 +118,18 @@
           }
         )
 
-      async function handleMenuClick({ key }: { key: string; keyPath: string[] }) {
+      async function handleMenuClick({ key }: MenuInfo) {
+        alert('12233')
+        const _key = key as string
         const { beforeClickFn } = props
         if (beforeClickFn && isFunction(beforeClickFn)) {
-          const flag = await beforeClickFn(key)
+          const flag = await beforeClickFn(_key)
           if (!flag) return
         }
-        emit('menuClick', key)
+        emit('menuClick', _key)
 
         isClickGo.value = true
-        menuState.selectedKeys = [key]
+        menuState.selectedKeys = [_key]
       }
 
       async function handleMenuChange(route?: RouteLocationNormalizedLoaded) {

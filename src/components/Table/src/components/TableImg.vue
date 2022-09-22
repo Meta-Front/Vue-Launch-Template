@@ -9,7 +9,7 @@
       <div class="img-div">
         <PreviewGroup>
           <template v-for="(img, index) in imgList" :key="img">
-            <Image
+            <AntImage
               :width="size"
               :style="{
                 display: index === 0 ? '' : 'none !important'
@@ -22,7 +22,7 @@
     </Badge>
     <PreviewGroup v-else>
       <template v-for="(img, index) in imgList" :key="img">
-        <Image
+        <AntImage
           :width="size"
           :style="{ marginLeft: index === 0 ? 0 : margin }"
           :src="srcPrefix + img"
@@ -35,12 +35,12 @@
   import type { CSSProperties } from 'vue'
   import { defineComponent, computed } from 'vue'
   import { useDesign } from '/@/hooks/web/useDesign'
-  import { Image, Badge } from 'ant-design-vue'
+  import { Image as AntImage, Badge } from 'ant-design-vue'
   import { propTypes } from '/@/utils/propTypes'
 
   export default defineComponent({
     name: 'TableImage',
-    components: { Image, PreviewGroup: Image.PreviewGroup, Badge },
+    components: { AntImage, PreviewGroup: AntImage.PreviewGroup, Badge },
     props: {
       imgList: propTypes.arrayOf(propTypes.string),
       size: propTypes.number.def(40),

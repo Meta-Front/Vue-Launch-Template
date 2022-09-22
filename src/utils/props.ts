@@ -1,6 +1,7 @@
 // copy from element-plus
 
 import { warn } from 'vue'
+// eslint-disable-next-line
 import { isObject } from '@vue/shared'
 import { fromPairs } from 'lodash-es'
 import type { ExtractPropTypes, PropType } from 'vue'

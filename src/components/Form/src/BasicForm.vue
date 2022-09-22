@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AntForm
     v-bind="getBindValue"
     :class="getFormClass"
     ref="formElRef"
@@ -34,7 +34,7 @@
       </FormAction>
       <slot name="formFooter"></slot>
     </Row>
-  </Form>
+  </AntForm>
 </template>
 <script lang="ts">
   import type { FormActionType, FormProps, FormSchema } from './types/form'
@@ -42,7 +42,7 @@
   import type { Ref } from 'vue'
 
   import { defineComponent, reactive, ref, computed, unref, onMounted, watch, nextTick } from 'vue'
-  import { Form, Row } from 'ant-design-vue'
+  import { Form as AntForm, Row } from 'ant-design-vue'
   import FormItem from './components/FormItem.vue'
   import FormAction from './components/FormAction.vue'
 
@@ -66,7 +66,7 @@
 
   export default defineComponent({
     name: 'BasicForm',
-    components: { FormItem, Form, Row, FormAction },
+    components: { FormItem, AntForm, Row, FormAction },
     props: basicProps,
     emits: ['advanced-change', 'reset', 'submit', 'register', 'field-value-change'],
     setup(props, { emit, attrs }) {

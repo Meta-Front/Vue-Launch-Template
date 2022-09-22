@@ -24,7 +24,7 @@
   import { createSimpleRootMenuContext } from './useSimpleMenuContext'
   import mitt from '/@/utils/mitt'
   export default defineComponent({
-    name: 'Menu',
+    name: 'CustomMenu',
     props: {
       theme: propTypes.oneOf(['light', 'dark']).def('light'),
       activeName: propTypes.oneOfType([propTypes.string, propTypes.number]),
