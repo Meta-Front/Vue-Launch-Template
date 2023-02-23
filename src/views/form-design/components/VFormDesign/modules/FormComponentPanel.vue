@@ -4,11 +4,7 @@
 -->
 <template>
   <div class="form-panel v-form-container">
-    <Empty
-      class="empty-text"
-      v-show="formConfig.schemas.length === 0"
-      description="从左侧选择控件添加"
-    />
+    <Empty class="empty-text" v-show="formConfig.schemas.length === 0" description="从左侧选择控件添加" />
     <Form v-bind="formConfig">
       <div class="draggable-box">
         <draggable
@@ -37,12 +33,12 @@
   </div>
 </template>
 <script lang="ts">
-  import draggable from 'vuedraggable';
-  import { defineComponent, computed } from 'vue';
-  import LayoutItem from '../components/LayoutItem.vue';
-  import { cloneDeep } from 'lodash-es';
-  import { useFormDesignState } from '../../../hooks/useFormDesignState';
-  import { Form, Empty } from 'ant-design-vue';
+  import draggable from 'vuedraggable'
+  import { defineComponent, computed } from 'vue'
+  import LayoutItem from '../components/LayoutItem.vue'
+  import { cloneDeep } from 'lodash-es'
+  import { useFormDesignState } from '../../../hooks/useFormDesignState'
+  import { Form, Empty } from 'ant-design-vue'
 
   export default defineComponent({
     name: 'FormComponentPanel',
@@ -50,47 +46,47 @@
       LayoutItem,
       draggable,
       Form,
-      Empty,
+      Empty
     },
     emits: ['handleSetSelectItem'],
     setup(_, { emit }) {
-      const { formConfig } = useFormDesignState() as Recordable;
+      const { formConfig } = useFormDesignState() as Recordable
 
       /**
        * 拖拽完成事件
        * @param newIndex
        */
       const addItem = ({ newIndex }: any) => {
-        formConfig.value.schemas = formConfig.value.schemas || [];
+        formConfig.value.schemas = formConfig.value.schemas || []
 
-        const schemas = formConfig.value.schemas;
-        schemas[newIndex] = cloneDeep(schemas[newIndex]);
-        emit('handleSetSelectItem', schemas[newIndex]);
-      };
+        const schemas = formConfig.value.schemas
+        schemas[newIndex] = cloneDeep(schemas[newIndex])
+        emit('handleSetSelectItem', schemas[newIndex])
+      }
 
       /**
        * 拖拽开始事件
        * @param e {Object} 事件对象
        */
       const handleDragStart = (e: any) => {
-        emit('handleSetSelectItem', formConfig.value.schemas[e.oldIndex]);
-      };
+        emit('handleSetSelectItem', formConfig.value.schemas[e.oldIndex])
+      }
 
       // 获取祖先组件传递的currentItem
 
       // 计算布局元素，水平模式下为ACol，非水平模式下为div
       const layoutTag = computed(() => {
-        return formConfig.value.layout === 'horizontal' ? 'Col' : 'div';
-      });
+        return formConfig.value.layout === 'horizontal' ? 'Col' : 'div'
+      })
 
       return {
         addItem,
         handleDragStart,
         formConfig,
-        layoutTag,
-      };
-    },
-  });
+        layoutTag
+      }
+    }
+  })
 </script>
 
 <style lang="less" scoped>

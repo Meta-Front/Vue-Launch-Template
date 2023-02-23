@@ -1,12 +1,7 @@
 <template>
   <template v-if="['Grid'].includes(schema.component)">
     <Row class="grid-row">
-      <Col
-        class="grid-col"
-        v-for="(colItem, index) in schema.columns"
-        :key="index"
-        :span="colItem.span"
-      >
+      <Col class="grid-col" v-for="(colItem, index) in schema.columns" :key="index" :span="colItem.span">
         <FormRender
           v-for="(item, k) in colItem.children"
           :key="k"
@@ -28,48 +23,45 @@
     @submit="$emit('submit', schema)"
     @reset="$emit('reset')"
   >
-    <template
-      v-if="schema.componentProps && schema.componentProps.slotName"
-      #[schema.componentProps!.slotName]
-    >
+    <template v-if="schema.componentProps && schema.componentProps.slotName" #[schema.componentProps!.slotName]>
       <slot :name="schema.componentProps!.slotName"></slot>
     </template>
   </VFormItem>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType } from 'vue';
-  import { IVFormComponent, IFormConfig } from '../../../typings/v-form-component';
-  import VFormItem from '../../VFormItem/index.vue';
-  import { Row, Col } from 'ant-design-vue';
+  import { defineComponent, PropType } from 'vue'
+  import { IVFormComponent, IFormConfig } from '../../../typings/v-form-component'
+  import VFormItem from '../../VFormItem/index.vue'
+  import { Row, Col } from 'ant-design-vue'
 
   export default defineComponent({
     name: 'FormRender',
     components: {
       VFormItem,
       Row,
-      Col,
+      Col
     },
     props: {
       formData: {
         type: Object,
-        default: () => ({}),
+        default: () => ({})
       },
       schema: {
         type: Object as PropType<IVFormComponent>,
-        default: () => ({}),
+        default: () => ({})
       },
       formConfig: {
         type: Object as PropType<IFormConfig>,
-        default: () => [] as IFormConfig[],
+        default: () => [] as IFormConfig[]
       },
       setFormModel: {
         type: Function as PropType<(key: string, value: any) => void>,
-        default: null,
-      },
+        default: null
+      }
     },
     emits: ['change', 'submit', 'reset'],
-    setup(_props) {},
-  });
+    setup(_props) {}
+  })
 </script>
 
 <style>

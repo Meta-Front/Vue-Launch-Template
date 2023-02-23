@@ -8,7 +8,7 @@
         sort: false,
         clone: cloneItem,
         animation: 180,
-        ghostClass: 'moving',
+        ghostClass: 'moving'
       }"
       item-key="type"
       @start="handleStart($event, list)"
@@ -24,18 +24,18 @@
             <use :xlink:href="`#${element.icon}`" />
           </svg> -->
           <Icon :icon="element.icon" />
-          {{ element.label }}</li
-        ></template
+          {{ element.label }}
+        </li></template
       >
     </draggable>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue';
-  import { IVFormComponent } from '../../../typings/v-form-component';
-  import draggable from 'vuedraggable';
+  import { defineComponent, reactive } from 'vue'
+  import { IVFormComponent } from '../../../typings/v-form-component'
+  import draggable from 'vuedraggable'
   // import { toRefs } from '@vueuse/core';
-  import { Icon } from '/@/components/Icon';
+  import { Icon } from '/@/components/Icon'
 
   export default defineComponent({
     name: 'CollapseItem',
@@ -43,29 +43,29 @@
     props: {
       list: {
         type: [Array] as PropType<IVFormComponent[]>,
-        default: () => [],
+        default: () => []
       },
       handleListPush: {
         type: Function as PropType<(item: IVFormComponent) => void>,
-        default: null,
-      },
+        default: null
+      }
     },
     setup(props, { emit }) {
-      const state = reactive({});
+      const state = reactive({})
       const handleStart = (e: any, list1: IVFormComponent[]) => {
-        emit('start', list1[e.oldIndex].component);
-      };
+        emit('start', list1[e.oldIndex].component)
+      }
       const handleAdd = (e: any) => {
-        console.log(e);
-      };
+        console.log(e)
+      }
       // https://github.com/SortableJS/vue.draggable.next
       // https://github.com/SortableJS/vue.draggable.next/blob/master/example/components/custom-clone.vue
       const cloneItem = (one) => {
-        return props.handleListPush(one);
-      };
-      return { state, handleStart, handleAdd, cloneItem };
-    },
-  });
+        return props.handleListPush(one)
+      }
+      return { state, handleStart, handleAdd, cloneItem }
+    }
+  })
 </script>
 
 <style lang="less" scoped>

@@ -6,11 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:all": "yarn lint:prettier",
+    "postinstall": "husky install",
+    "commit": "npx commitlint --from HEAD~1 --to HEAD --verbose"
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@ant-design/icons-vue": "^6.1.0",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "@iconify/iconify": "^3.1.0",
     "@logicflow/core": "^1.1.31",
     "@logicflow/extension": "^1.1.31",
@@ -70,6 +76,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.9.0",
     "fs-extra": "^11.1.0",
+    "husky": "^8.0.3",
     "inquirer": "^9.1.4",
     "less": "^4.1.3",
     "mockjs": "^1.1.0",

@@ -19,69 +19,69 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, toRefs, unref } from 'vue';
-  import { CodeEditor, MODE } from '/@/components/CodeEditor';
+  import { defineComponent, reactive, toRefs, unref } from 'vue'
+  import { CodeEditor, MODE } from '/@/components/CodeEditor'
 
-  import { useCopyToClipboard } from '/@/hooks/web/useCopyToClipboard';
-  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useCopyToClipboard } from '/@/hooks/web/useCopyToClipboard'
+  import { useMessage } from '/@/hooks/web/useMessage'
   export default defineComponent({
     name: 'PreviewCode',
     components: {
-      CodeEditor,
+      CodeEditor
     },
     props: {
       fileFormat: {
         type: String,
-        default: 'json',
+        default: 'json'
       },
       editorJson: {
         type: String,
-        default: '',
-      },
+        default: ''
+      }
     },
     setup(props) {
       const state = reactive({
-        visible: false,
-      });
+        visible: false
+      })
 
       const exportData = (data: string, fileName = `file.${props.fileFormat}`) => {
-        let content = 'data:text/csv;charset=utf-8,';
-        content += data;
-        const encodedUri = encodeURI(content);
-        const actions = document.createElement('a');
-        actions.setAttribute('href', encodedUri);
-        actions.setAttribute('download', fileName);
-        actions.click();
-      };
+        let content = 'data:text/csv;charset=utf-8,'
+        content += data
+        const encodedUri = encodeURI(content)
+        const actions = document.createElement('a')
+        actions.setAttribute('href', encodedUri)
+        actions.setAttribute('download', fileName)
+        actions.click()
+      }
 
       const handleExportJson = () => {
-        exportData(props.editorJson);
-      };
-      const { clipboardRef, copiedRef } = useCopyToClipboard();
-      const { createMessage } = useMessage();
+        exportData(props.editorJson)
+      }
+      const { clipboardRef, copiedRef } = useCopyToClipboard()
+      const { createMessage } = useMessage()
 
       const handleCopyJson = () => {
         // 复制数据
-        const value = props.editorJson;
+        const value = props.editorJson
         if (!value) {
-          createMessage.warning('代码为空！');
-          return;
+          createMessage.warning('代码为空！')
+          return
         }
-        clipboardRef.value = value;
+        clipboardRef.value = value
         if (unref(copiedRef)) {
-          createMessage.warning('复制成功！');
+          createMessage.warning('复制成功！')
         }
-      };
+      }
 
       return {
         ...toRefs(state),
         exportData,
         handleCopyJson,
         handleExportJson,
-        MODE,
-      };
-    },
-  });
+        MODE
+      }
+    }
+  })
 </script>
 
 <style lang="less" scoped>

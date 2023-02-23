@@ -2,7 +2,7 @@
   <BasicForm @register="register" />
 </template>
 <script lang="ts" setup>
-  import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
+  import { BasicForm, FormSchema, useForm } from '/@/components/Form/index'
 
   const schemas: FormSchema[] = [
     {
@@ -17,21 +17,21 @@
         placeholder: '自定义placeholder',
         onChange: (_e: any) => {
           //
-        },
-      },
+        }
+      }
     },
     {
       field: 'field2',
       component: 'Input',
       label: '字段2',
-      span: 8,
+      span: 8
       // colProps: {
       //   span: 8,
       // },
-    },
-  ];
+    }
+  ]
 
   const [register] = useForm({
-    schemas,
-  });
+    schemas
+  })
 </script>

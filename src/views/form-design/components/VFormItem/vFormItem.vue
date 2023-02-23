@@ -19,50 +19,50 @@
   </FormItem>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, unref } from 'vue';
-  import { IFormConfig, IVFormComponent } from '../../typings/v-form-component';
-  import { FormProps, FormSchema } from '/@/components/Form';
+  import { computed, defineComponent, unref } from 'vue'
+  import { IFormConfig, IVFormComponent } from '../../typings/v-form-component'
+  import { FormProps, FormSchema } from '/@/components/Form'
 
-  import FormItem from '/@/components/Form/src/components/FormItem.vue';
+  import FormItem from '/@/components/Form/src/components/FormItem.vue'
 
   export default defineComponent({
     name: 'VFormItem',
     components: {
-      FormItem,
+      FormItem
     },
     props: {
       formData: {
         type: Object,
-        default: () => ({}),
+        default: () => ({})
       },
       schema: {
         type: Object as PropType<IVFormComponent>,
-        required: true,
+        required: true
       },
       formConfig: {
         type: Object as PropType<IFormConfig>,
-        required: true,
-      },
+        required: true
+      }
     },
     setup(props) {
       const schema = computed(() => {
         const schema: FormSchema = {
-          ...unref(props.schema),
-        } as FormSchema;
+          ...unref(props.schema)
+        } as FormSchema
 
-        return schema;
-      });
+        return schema
+      })
 
       // Get the basic configuration of the form
       const getProps = computed((): FormProps => {
-        return { ...unref(props.formConfig) } as FormProps;
-      });
+        return { ...unref(props.formConfig) } as FormProps
+      })
       return {
         schemaNew: schema,
-        getProps,
-      };
-    },
-  });
+        getProps
+      }
+    }
+  })
 </script>
 
 <style lang="less" scoped></style>
