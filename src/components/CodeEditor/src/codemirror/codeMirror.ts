@@ -1,5 +1,5 @@
-import CodeMirror from 'codemirror';
-import './codemirror.css';
+import CodeMirror from 'codemirror'
+import './codemirror.css'
 // import 'codemirror/theme/idea.css';
 // import 'codemirror/theme/material-palenight.css';
 // import 'codemirror/addon/lint/lint.css';
@@ -18,4 +18,4 @@ import './codemirror.css';
 // import 'codemirror/addon/fold/indent-fold';
 // import 'codemirror/addon/lint/json-lint';
 // import 'codemirror/addon/fold/comment-fold';
-export { CodeMirror };
+export { CodeMirror }
