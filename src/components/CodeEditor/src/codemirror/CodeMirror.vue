@@ -7,7 +7,7 @@
   import { useDebounceFn } from '@vueuse/core'
   import { useAppStore } from '/@/store/modules/app'
   import { useWindowSizeFn } from '/@/hooks/event/useWindowSizeFn'
-  import CodeMirror from 'codemirror'
+  import { EditorView } from 'codemirror'
   import { MODE } from './../typing'
   // css
   import './codemirror.css'
@@ -34,7 +34,7 @@
   const emit = defineEmits(['change'])
 
   const el = ref()
-  let editor: Nullable<CodeMirror.Editor>
+  let editor: Nullable<EditorView>
 
   const debounceRefresh = useDebounceFn(refresh, 100)
   const appStore = useAppStore()

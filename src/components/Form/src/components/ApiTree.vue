@@ -1,16 +1,16 @@
 <template>
-  <a-tree v-bind="getAttrs" @change="handleChange">
-    <template #[item]="data" v-for="item in Object.keys($slots)">
+  <ATree v-bind="getAttrs" @change="handleChange">
+    <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
       <slot :name="item" v-bind="data || {}"></slot>
     </template>
     <template #suffixIcon v-if="loading">
       <LoadingOutlined spin />
     </template>
-  </a-tree>
+  </ATree>
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, watch, ref, onMounted, unref } from 'vue'
+  import { computed, defineComponent, watch, ref, onMounted, unref, PropType } from 'vue'
   import { Tree } from 'ant-design-vue'
   import { isArray, isFunction } from '/@/utils/is'
   import { get } from 'lodash-es'
@@ -29,7 +29,7 @@
     emits: ['options-change', 'change'],
     setup(props, { attrs, emit }) {
       const treeData = ref<Recordable[]>([])
-      const isFirstLoaded = ref<Boolean>(false)
+      const isFirstLoaded = ref<boolean>(false)
       const loading = ref(false)
       const getAttrs = computed(() => {
         return {

@@ -1,34 +1,34 @@
-import type { UserConfig, ConfigEnv } from 'vite';
-import pkg from './package.json';
-import dayjs from 'dayjs';
-import { loadEnv } from 'vite';
-import { resolve } from 'path';
-import { generateModifyVars } from './build/generate/generateModifyVars';
-import { createProxy } from './build/vite/proxy';
-import { wrapperEnv } from './build/utils';
-import { createVitePlugins } from './build/vite/plugin';
-import { OUTPUT_DIR } from './build/constant';
+import type { UserConfig, ConfigEnv } from 'vite'
+import pkg from './package.json'
+import dayjs from 'dayjs'
+import { loadEnv } from 'vite'
+import { resolve } from 'path'
+import { generateModifyVars } from './build/generate/generateModifyVars'
+import { createProxy } from './build/vite/proxy'
+import { wrapperEnv } from './build/utils'
+import { createVitePlugins } from './build/vite/plugin'
+import { OUTPUT_DIR } from './build/constant'
 
 function pathResolve(dir: string) {
-  return resolve(process.cwd(), '.', dir);
+  return resolve(process.cwd(), '.', dir)
 }
 
-const { dependencies, devDependencies, name, version } = pkg;
+const { dependencies, devDependencies, name, version } = pkg
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
-  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-};
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+}
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
-  const root = process.cwd();
+  const root = process.cwd()
 
-  const env = loadEnv(mode, root);
+  const env = loadEnv(mode, root)
 
   // The boolean type read by loadEnv is a string. This function can be converted to boolean type
-  const viteEnv = wrapperEnv(env);
+  const viteEnv = wrapperEnv(env)
 
-  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE } = viteEnv;
-  const isBuild = command === 'build';
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE } = viteEnv
+  const isBuild = command === 'build'
   return {
     base: VITE_PUBLIC_PATH,
     root,
@@ -36,19 +36,19 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       alias: [
         {
           find: 'vue-i18n',
-          replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+          replacement: 'vue-i18n/dist/vue-i18n.cjs.js'
         },
         // /@/xxxx => src/xxxx
         {
           find: /\/@\//,
-          replacement: pathResolve('src') + '/',
+          replacement: pathResolve('src') + '/'
         },
         // /#/xxxx => types/xxxx
         {
           find: /\/#\//,
-          replacement: pathResolve('types') + '/',
-        },
-      ],
+          replacement: pathResolve('types') + '/'
+        }
+      ]
     },
     server: {
       /*hmr: {
@@ -59,10 +59,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       host: true,
       port: VITE_PORT,
       // Load proxy configuration from .env
-      proxy: createProxy(VITE_PROXY),
+      proxy: createProxy(VITE_PROXY)
     },
     esbuild: {
-      drop: VITE_DROP_CONSOLE ? ['console', 'debugger'] : [],
+      drop: VITE_DROP_CONSOLE ? ['console', 'debugger'] : []
     },
     build: {
       target: 'es2015',
@@ -81,25 +81,25 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       // },
       // Turning off brotliSize display can slightly reduce packaging time
       reportCompressedSize: false,
-      chunkSizeWarningLimit: 2000,
+      chunkSizeWarningLimit: 2000
     },
     define: {
       __APP_INFO__: JSON.stringify(__APP_INFO__),
       __PROD__: true,
       __COLOR_PLUGIN_OPTIONS__: {
-        injectTo: 'body',
+        injectTo: 'body'
       },
       // 这里如果使用字符串一定要被包裹，因为是替换内容，类似vue的变量声明
-      __COLOR_PLUGIN_OUTPUT_FILE_NAME__: '"apptheme-style.hash.css"',
+      __COLOR_PLUGIN_OUTPUT_FILE_NAME__: '"apptheme-style.hash.css"'
     },
 
     css: {
       preprocessorOptions: {
         less: {
           modifyVars: generateModifyVars(),
-          javascriptEnabled: true,
-        },
-      },
+          javascriptEnabled: true
+        }
+      }
     },
 
     // The vite plugin used by the project. The quantity is large, so it is separately extracted and managed
@@ -107,12 +107,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
     optimizeDeps: {
       // @iconify/iconify: The dependency is dynamically and virtually loaded by @purge-icons/generated, so it needs to be specified explicitly
-      include: [
-        '@vue/runtime-core',
-        '@vue/shared',
-        'ant-design-vue/es/locale/zh_CN',
-        'ant-design-vue/es/locale/en_US',
-      ],
-    },
-  };
-};
+      include: ['@vue/runtime-core', '@vue/shared', 'ant-design-vue/es/locale/zh_CN', 'ant-design-vue/es/locale/en_US']
+    }
+  }
+}
