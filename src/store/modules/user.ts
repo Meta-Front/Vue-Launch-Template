@@ -2,17 +2,17 @@ import type { UserInfo } from '/#/store'
 import type { ErrorMessageMode } from '/#/axios'
 import { defineStore } from 'pinia'
 import { store } from '/@/store'
-import { RoleEnum } from '/@/enums/roleEnum'
+import { type RoleEnum } from '/@/enums/roleEnum'
 import { PageEnum } from '/@/enums/pageEnum'
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum'
 import { getAuthCache, setAuthCache } from '/@/utils/auth'
-import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel'
+import { type GetUserInfoModel, type LoginParams } from '/@/api/sys/model/userModel'
 import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user'
 import { useI18n } from '/@/hooks/web/useI18n'
 import { useMessage } from '/@/hooks/web/useMessage'
 import { router } from '/@/router'
 import { usePermissionStore } from '/@/store/modules/permission'
-import { RouteRecordRaw } from 'vue-router'
+import { type RouteRecordRaw } from 'vue-router'
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic'
 import { isArray } from '/@/utils/is'
 import { h } from 'vue'
@@ -41,16 +41,18 @@ export const useUserStore = defineStore({
   }),
   getters: {
     getUserInfo(): UserInfo {
-      return this.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {}
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      return this.userInfo ?? getAuthCache<UserInfo>(USER_INFO_KEY) ?? {}
     },
     getToken(): string {
-      return this.token || getAuthCache<string>(TOKEN_KEY)
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      return this.token ?? getAuthCache<string>(TOKEN_KEY)
     },
     getRoleList(): RoleEnum[] {
       return this.roleList.length > 0 ? this.roleList : getAuthCache<RoleEnum[]>(ROLES_KEY)
     },
     getSessionTimeout(): boolean {
-      return !!this.sessionTimeout
+      return !!(this.sessionTimeout ?? false)
     },
     getLastUpdateTime(): number {
       return this.lastUpdateTime
@@ -58,7 +60,7 @@ export const useUserStore = defineStore({
   },
   actions: {
     setToken(info: string | undefined) {
-      this.token = info ? info : '' // for null or undefined value
+      this.token = info ?? '' // for null or undefined value
       setAuthCache(TOKEN_KEY, info)
     },
     setRoleList(roleList: RoleEnum[]) {
@@ -95,17 +97,19 @@ export const useUserStore = defineStore({
 
         // save token
         this.setToken(token)
-        return this.afterLoginAction(goHome)
+        return await this.afterLoginAction(goHome)
       } catch (error) {
-        return Promise.reject(error)
+        return await Promise.reject(error)
       }
     },
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!this.getToken) return null
       // get user info
       const userInfo = await this.getUserInfoAction()
 
       const sessionTimeout = this.sessionTimeout
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (sessionTimeout) {
         this.setSessionTimeout(false)
       } else {
@@ -118,11 +122,13 @@ export const useUserStore = defineStore({
           router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw)
           permissionStore.setDynamicAddedRoute(true)
         }
-        goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME))
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        goHome && (await router.replace(userInfo?.homePath ?? PageEnum.BASE_HOME))
       }
       return userInfo
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!this.getToken) return null
       const userInfo = await getUserInfo()
       const { roles = [] } = userInfo
@@ -140,6 +146,7 @@ export const useUserStore = defineStore({
      * @description: logout
      */
     async logout(goLogin = false) {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (this.getToken) {
         try {
           await doLogout()
@@ -150,6 +157,7 @@ export const useUserStore = defineStore({
       this.setToken(undefined)
       this.setSessionTimeout(false)
       this.setUserInfo(null)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       goLogin && router.push(PageEnum.BASE_LOGIN)
     },
 
@@ -172,6 +180,7 @@ export const useUserStore = defineStore({
 })
 
 // Need to be used outside the setup
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function useUserStoreWithOut() {
   return useUserStore(store)
 }
