@@ -1,11 +1,13 @@
+/* stylelint-disable no-invalid-position-at-import-rule */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'transition/index.less';
-@import 'var/index.less';
-@import 'public.less';
-@import 'ant/index.less';
-@import './theme.less';
+
+@import url('transition/index.less');
+@import url('var/index.less');
+@import url('public.less');
+@import url('ant/index.less');
+@import url('./theme.less');
 
 input:-webkit-autofill {
   box-shadow: 0 0 0 1000px white inset !important;

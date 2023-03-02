@@ -54,7 +54,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import url(../styles/variable.less);
+  @import url("../styles/variable.less");
 
   :deep(.ant-tabs) {
     box-sizing: border-box;

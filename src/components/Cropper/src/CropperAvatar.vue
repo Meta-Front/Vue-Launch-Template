@@ -114,7 +114,7 @@
     }
 
     &-image-mask {
-      opacity: 0%;
+      opacity: 0;
       position: absolute;
       width: inherit;
       height: inherit;
@@ -130,7 +130,7 @@
     }
 
     &-image-mask:hover {
-      opacity: 4000%;
+      opacity: 40;
     }
 
     &-upload-btn {

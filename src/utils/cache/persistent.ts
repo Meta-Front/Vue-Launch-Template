@@ -1,3 +1,4 @@
+/* eslint-disable import/no-absolute-path */
 import type { LockInfo, UserInfo } from '/#/store'
 import type { ProjectConfig } from '/#/config'
 import type { RouteLocationNormalized } from 'vue-router'
@@ -7,12 +8,12 @@ import { Memory } from './memory'
 import {
   TOKEN_KEY,
   USER_INFO_KEY,
-  ROLES_KEY,
+  type ROLES_KEY,
   LOCK_INFO_KEY,
-  PROJ_CFG_KEY,
+  type PROJ_CFG_KEY,
   APP_LOCAL_CACHE_KEY,
   APP_SESSION_CACHE_KEY,
-  MULTIPLE_TABS_KEY
+  type MULTIPLE_TABS_KEY
 } from '/@/enums/cacheEnum'
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting'
 import { toRaw } from 'vue'
@@ -41,14 +42,19 @@ const ss = createSessionStorage()
 const localMemory = new Memory(DEFAULT_CACHE_TIME)
 const sessionMemory = new Memory(DEFAULT_CACHE_TIME)
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function initPersistentMemory() {
   const localCache = ls.get(APP_LOCAL_CACHE_KEY)
   const sessionCache = ss.get(APP_SESSION_CACHE_KEY)
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   localCache && localMemory.resetCache(localCache)
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   sessionCache && sessionMemory.resetCache(sessionCache)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Persistent {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static getLocal<T>(key: LocalKeys) {
     return localMemory.get(key)?.value as Nullable<T>
   }
@@ -68,6 +74,7 @@ export class Persistent {
     immediate && ls.clear()
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static getSession<T>(key: SessionKeys) {
     return sessionMemory.get(key)?.value as Nullable<T>
   }
@@ -81,11 +88,13 @@ export class Persistent {
     sessionMemory.remove(key)
     immediate && ss.set(APP_SESSION_CACHE_KEY, sessionMemory.getCache)
   }
+
   static clearSession(immediate = false): void {
     sessionMemory.clear()
     immediate && ss.clear()
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static clearAll(immediate = false) {
     sessionMemory.clear()
     localMemory.clear()
@@ -109,14 +118,17 @@ window.addEventListener('beforeunload', function () {
   })
 })
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function storageChange(e: any) {
   const { key, newValue, oldValue } = e
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!key) {
     Persistent.clearAll()
     return
   }
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!!newValue && !!oldValue) {
     if (APP_LOCAL_CACHE_KEY === key) {
       Persistent.clearLocal()
