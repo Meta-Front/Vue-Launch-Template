@@ -1,31 +1,25 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
-    es2021: true
-    // 解决eslint找不到module的报错
-    // node: true
+    es2021: true,
+    node: true
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    'standard-with-typescript',
-    'prettier',
-    'plugin:prettier/recommended',
-    'plugin:@typescript-eslint/recommended'
-  ],
+  extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:@typescript-eslint/recommended'],
   overrides: [],
   parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: '@typescript-eslint/parser',
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.json'],
-    jsxPragma: 'React'
+    parser: '@typescript-eslint/parser'
   },
-  // plugins: ['vue'],
+  plugins: ['vue', '@typescript-eslint'],
   rules: {
+    indent: ['error', 2],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
+    'no-undef': 'off',
     'import/no-unresolved': 'off',
-    'import/no-absolute-path': 'off',
+    // 'import/no-absolute-path': 'off',
     'vue/multi-word-component-names': 'off'
   }
 }
