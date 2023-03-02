@@ -115,48 +115,56 @@ export const usePermissionStore = defineStore({
       const appStore = useAppStoreWithOut()
 
       let routes: AppRouteRecordRaw[] = []
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       const roleList = toRaw(userStore.getRoleList) || []
       const { permissionMode = projectSetting.permissionMode } = appStore.getProjectConfig
 
       // 路由过滤器 在 函数filter 作为回调传入遍历使用
-      const routeFilter = (route: AppRouteRecordRaw) => {
+      const routeFilter = (route: AppRouteRecordRaw): boolean => {
         const { meta } = route
         // 抽出角色
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         const { roles } = meta || {}
-        if (!roles) return true
+        if (roles == null) return true
         // 进行角色权限判断
         return roleList.some((role) => roles.includes(role))
       }
 
-      const routeRemoveIgnoreFilter = (route: AppRouteRecordRaw) => {
+      const routeRemoveIgnoreFilter = (route: AppRouteRecordRaw): boolean => {
         const { meta } = route
         // ignoreRoute 为true 则路由仅用于菜单生成，不会在实际的路由表中出现
-        const { ignoreRoute } = meta || {}
+        const { ignoreRoute } = meta
         // arr.filter 返回 true 表示该元素通过测试
-        return !ignoreRoute
+        return !(ignoreRoute ?? false)
       }
 
       /**
        * @description 根据设置的首页path，修正routes中的affix标记（固定首页）
        * */
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const patchHomeAffix = (routes: AppRouteRecordRaw[]) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!routes || routes.length === 0) return
-        let homePath: string = userStore.getUserInfo.homePath || PageEnum.BASE_HOME
+        let homePath: string = userStore?.getUserInfo.homePath ?? PageEnum.BASE_HOME
 
+        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         function patcher(routes: AppRouteRecordRaw[], parentPath = '') {
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (parentPath) parentPath = parentPath + '/'
           routes.forEach((route: AppRouteRecordRaw) => {
             const { path, children, redirect } = route
             const currentPath = path.startsWith('/') ? path : parentPath + path
             if (currentPath === homePath) {
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               if (redirect) {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 homePath = route.redirect! as string
               } else {
                 route.meta = Object.assign({}, route.meta, { affix: true })
                 throw new Error('end')
               }
             }
-            children && children.length > 0 && patcher(children, currentPath)
+            children != null && children.length > 0 && patcher(children, currentPath)
           })
         }
 
@@ -165,7 +173,6 @@ export const usePermissionStore = defineStore({
         } catch (e) {
           // 已处理完毕跳出循环
         }
-        return
       }
 
       switch (permissionMode) {
@@ -187,6 +194,7 @@ export const usePermissionStore = defineStore({
           // 对一级路由再次根据角色权限过滤
           routes = routes.filter(routeFilter)
           // 将路由转换成菜单
+          // eslint-disable-next-line no-case-declarations
           const menuList = transformRouteToMenu(routes, true)
           // 移除掉 ignoreRoute: true 的路由 非一级路由
           routes = filter(routes, routeRemoveIgnoreFilter)
@@ -194,7 +202,7 @@ export const usePermissionStore = defineStore({
           routes = routes.filter(routeRemoveIgnoreFilter)
           // 对菜单进行排序
           menuList.sort((a, b) => {
-            return (a.meta?.orderNo || 0) - (b.meta?.orderNo || 0)
+            return (a.meta?.orderNo ?? 0) - (b.meta?.orderNo ?? 0)
           })
 
           // 设置菜单列表
@@ -208,8 +216,10 @@ export const usePermissionStore = defineStore({
         //  If you are sure that you do not need to do background dynamic permissions, please comment the entire judgment below
         //  如果确定不需要做后台动态权限，请在下方注释整个判断
         case PermissionModeEnum.BACK:
+          // eslint-disable-next-line no-case-declarations
           const { createMessage } = useMessage()
 
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           createMessage.loading({
             content: t('sys.app.menuLoading'),
             duration: 1
@@ -219,6 +229,7 @@ export const usePermissionStore = defineStore({
           // 模拟从后台获取权限码，
           // this function may only need to be executed once, and the actual project can be put at the right time by itself
           // 这个功能可能只需要执行一次，实际项目可以自己放在合适的时间
+          // eslint-disable-next-line no-case-declarations
           let routeList: AppRouteRecordRaw[] = []
           try {
             await this.changePermissionCode()
@@ -233,6 +244,7 @@ export const usePermissionStore = defineStore({
 
           //  Background routing to menu structure
           //  后台路由到菜单结构
+          // eslint-disable-next-line no-case-declarations
           const backMenuList = transformRouteToMenu(routeList)
           this.setBackMenuList(backMenuList)
 
@@ -255,6 +267,6 @@ export const usePermissionStore = defineStore({
 
 // Need to be used outside the setup
 // 需要在设置之外使用
-export function usePermissionStoreWithOut() {
+export function usePermissionStoreWithOut(): object {
   return usePermissionStore(store)
 }
